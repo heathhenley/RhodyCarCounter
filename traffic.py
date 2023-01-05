@@ -1,3 +1,4 @@
+""" Use Yolo model to count cars seen on PVD traffic cams """
 import datetime
 import requests
 import time
