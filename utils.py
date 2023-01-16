@@ -9,7 +9,11 @@ CAM_LIST_URL = f"{BASE_URL}/travel/cameras_metro.php"
 # scrape cam link and name from pvd traffic site, returns a list of dicts with
 # the cam data (name, id, link, description from alt text)
 def get_cams_from_page(url=CAM_LIST_URL):
-  res = requests.get(url)
+  try:
+    res = requests.get(url, timeout=1)
+  except Exception as e:
+    print('f{e}')
+    return None
   if res.status_code != 200:
     return None
   cameras = []
