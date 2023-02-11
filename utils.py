@@ -38,3 +38,4 @@ if __name__ == "__main__":
   cams = get_cams_from_page(CAM_LIST_URL)
   print(cams)
   print(f"Cam count: {len(cams)}")
+  

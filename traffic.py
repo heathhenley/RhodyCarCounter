@@ -4,14 +4,13 @@ import requests
 import time
 from yolo import YoloModel, save_image_with_boxes
 
-import utils
+import db_utils
 
 SAVE_IMAGE = True # debug (saves image with resulting bounding boxes)
 
 
-def print_data(label, timestamp, image_name, vehicles):
-  print(f"{label},{timestamp},{vehicles}")
-
+def print_data(camera_id, timestamp, image_name, vehicles):
+  print(f"{camera_id},{timestamp},{vehicles}")
 
 # Download image to disk for the given camera, return friendlier name
 # TODO(Heath) use PIL or IO to keep in RAM, disk is going to be slow, though it
@@ -19,7 +18,7 @@ def print_data(label, timestamp, image_name, vehicles):
 # their images roughly every minute - so it might not actually matter yet.
 def download_image(url, cam_name):
   try:
-    res = requests.get(url, timeout=0.200)
+    res = requests.get(url, timeout=0.500)
   except Exception as e:
     print(f"{e}")
     return None
@@ -57,17 +56,19 @@ def detect_vehicles(
   input_size = (608, 608)
   yolo_model = YoloModel(model_dir, class_file, anchor_file, input_size)
   
-  cameras = utils.get_cams_from_page()
+  engine = db_utils.get_engine()
+  cameras = db_utils.get_camera_list()
   while True:
     # This whole step could be processed independently for each url
-    timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
     for camera in cameras:
-      label, url = camera["name"], camera["link"]
+      total_process_time_tic = time.perf_counter()
+      camera_name, url = camera.name, camera.url
       # Get image from server
       # Also not sure whether we want to overwrite each time (as we are doing
       #  now) or save the images with a timestamp, or save the input image with
       # the bounding box predictions, tbd
-      image_name = download_image(url, label)
+      image_name = download_image(url, camera_name)
       if image_name is None:
         print(f"Fail to get image: {image_name} ")
         continue
@@ -81,13 +82,16 @@ def detect_vehicles(
       vehicles = get_vehicle_count(yolo_model, scores, classes, vehicle_classes)
 
       if data_callback:
-        data_callback(label, timestamp, image_name, vehicles)
+        data_callback(
+          camera.id, timestamp, image_name, vehicles, engine)
 
       if SAVE_IMAGE:
         # Debug (save image with boxes)
         output_image = save_image_with_boxes(
           yolo_model.class_names, image_name, boxes, classes, scores)
         output_image.close()
+      print(
+        f"  Total Time to Process/Insert: {time.perf_counter() - total_process_time_tic} secs")
     # Adjust to not run the same frame too many times, the pics only update
     # roughly every minute or so. With ~50 cams taking 0.5 secs each to
     # process, that's still only 25 seconds, so we can take a little break to
@@ -95,7 +99,9 @@ def detect_vehicles(
     time.sleep(20.0)
 
 def main():
-  detect_vehicles(vehicle_classes=["car", "truck"], data_callback=print_data)
+  detect_vehicles(
+    vehicle_classes=["car", "truck"],
+    data_callback=db_utils.insert_data)
 
 if __name__ == "__main__":
   main()

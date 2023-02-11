@@ -20,7 +20,7 @@ class Camera(Base):
     url: Mapped[str]
 
     def __repr__(self) -> str:
-        return f""
+        return f"Name(name={self.name!r})"
 
 class DataPoint(Base):
     __tablename__ = "vehicle_frequency_data"
@@ -31,4 +31,4 @@ class DataPoint(Base):
     timestamp: Mapped[datetime.datetime]
 
     def __repr__(self) -> str:
-        return f"Address(id={self.id!r}, email_address={self.email_address!r})"
+        return f"Timestamp(time={self.timestamp!r}), Cam(camera_id={self.camera_id!r}), Vehicles(vehicles={self.vehicles!r})"
