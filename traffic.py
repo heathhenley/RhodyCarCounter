@@ -8,18 +8,13 @@ import db_utils
 
 SAVE_IMAGE = True # debug (saves image with resulting bounding boxes)
 
-# TODO(Heath): doing individual inserts for datapoints, should do bulk insert
-# after collecting results and use a single db session. Still fast enough to
-# not really care though
-
-def print_data(camera_id, timestamp, image_name, vehicles):
-  print(f"{camera_id},{timestamp},{vehicles}")
 
 # Download image to disk for the given camera, return friendlier name
-# TODO(Heath) use PIL or IO to keep in RAM, disk is going to be slow, though it
-# still might be ok with the number of cameras we have as they're only updating
-# their images roughly every minute - so it might not actually matter yet.
-def download_image(url, cam_name):
+def download_image(url: str, cam_name: str):
+  # NOTE(Heath) use PIL or IO to keep in RAM, disk is going to be slow, though
+  # it still might be ok with the number of cameras we have as they're only
+  # updating their images roughly every minute - so it might not actually
+  # matter yet.
   try:
     res = requests.get(url, timeout=0.500)
   except Exception as e:
@@ -98,8 +93,9 @@ def detect_vehicles(
     # Adjust to not run the same frame too many times, the pics only update
     # roughly every minute or so. With ~50 cams taking 0.5 secs each to
     # process, that's still only 25 seconds, so we can take a little break to
-    # avoid too many duplicate runs
-    time.sleep(20.0)
+    # avoid too many duplicate runs. It will also reduce cost if the db or
+    # or worker is too expensive
+    time.sleep(60 * 5) # running every 5 minutes
 
 def main():
   detect_vehicles(
