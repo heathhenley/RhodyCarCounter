@@ -8,6 +8,9 @@ import db_utils
 
 SAVE_IMAGE = True # debug (saves image with resulting bounding boxes)
 
+# TODO(Heath): doing individual inserts for datapoints, should do bulk insert
+# after collecting results and use a single db session. Still fast enough to
+# not really care though
 
 def print_data(camera_id, timestamp, image_name, vehicles):
   print(f"{camera_id},{timestamp},{vehicles}")
