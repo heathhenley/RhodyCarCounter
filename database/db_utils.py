@@ -2,7 +2,9 @@ import os
 import sqlalchemy
 
 import database.model as model
-import utils
+
+# TODO(Heath): utils should move out of worker
+import worker.utils
 
 
 def get_engine(db_connect_str=os.environ.get("DEV_DB_CONNECT_STR")):
