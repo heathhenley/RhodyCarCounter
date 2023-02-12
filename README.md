@@ -14,4 +14,8 @@ The directories contain different parts of the project:
 - `worker` - this is meant to run as a 'service', just loop for ever,
 pull down images from the traffic cams, run YOLO on them, and drop the results into a postgres database.
 - `database` - contains the database model, using SQLAlchemy as an ORM to make things easier
-- `api` - contains the `FastAPI` app that connects to the database and exposes the path operations to get to the data (GET only)
+- `api.py` - contains the `FastAPI` app that connects to the database and exposes the path operations to get to the data (GET only).
+
+NOTE(Heath): hacked to get railway working - I couldn't figure out how to tell NIXPACKS to use a special requirements.txt file and it can't install tensorflow, so I just removed the requirement from the requirement.txt file - I kept it in the requirements-all.txt file. 
+
+API can be tested [here](https://rhodycarcounter-production.up.railway.app/api/cameras) for example, and [docs](https://rhodycarcounter-production.up.railway.app/docs/). 
