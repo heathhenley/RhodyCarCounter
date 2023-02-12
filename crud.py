@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from database import model
-from . import schema
+import schema
 
 def get_camera(db: Session, camera_id: int):
   return (db.query(model.Camera)
