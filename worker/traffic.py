@@ -1,14 +1,17 @@
 """ Use Yolo model to count cars seen on PVD traffic cams """
 import datetime
+import os
 import requests
 import time
+
+import boto3
+
 from yolo import YoloModel, save_image_with_boxes
 
 import database.db_utils as db_utils
 import database.model as model
 
-SAVE_IMAGE = True # debug (saves image with resulting bounding boxes)
-
+S3_BUCKET = 'rhodycarcounter'
 
 # Download image to disk for the given camera, return friendlier name
 def download_image(url: str, cam_name: str):
@@ -55,8 +58,9 @@ def detect_vehicles(
   input_size = (608, 608)
   yolo_model = YoloModel(model_dir, class_file, anchor_file, input_size)
   
+  s3 = boto3.resource('s3')
   engine = db_utils.get_engine()
-  cameras = db_utils.get_camera_list()
+  cameras = db_utils.get_camera_list(engine)
   while True:
     # This whole step could be processed independently for each url
     timestamp = datetime.datetime.utcnow().strftime("%Y-%m-%d %H:%M:%S")
@@ -84,11 +88,17 @@ def detect_vehicles(
         data_callback(
           camera.id, timestamp, image_name, vehicles, engine)
 
-      if SAVE_IMAGE:
-        # Debug (save image with boxes)
-        output_image = save_image_with_boxes(
+      output_image = save_image_with_boxes(
           yolo_model.class_names, image_name, boxes, classes, scores)
-        output_image.close()
+      output_image.close()
+      # TODO(Heath) fix image path and hacky close / open, global s3 name
+      try:
+        with open(os.path.join('out', image_name), 'rb') as f:
+          s3.Bucket(S3_BUCKET).put_object(Key=image_name, Body=f)
+      except Exception as e:
+        print("Failed to put in s3 bucket")
+        print(e)
+
       print(
         f"  Total Time to Process/Insert: {time.perf_counter() - total_process_time_tic} secs")
     # Adjust to not run the same frame too many times, the pics only update
