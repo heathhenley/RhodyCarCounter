@@ -1,13 +1,16 @@
+import sys
 from fastapi import Depends, FastAPI, HTTPException
 from sqlalchemy.orm import Session, sessionmaker
 from database import db_utils, model
 import schema, crud
 
-
-engine = db_utils.get_engine()
-model.Base.metadata.create_all(bind=engine)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
+try:
+  engine = db_utils.get_engine()
+  model.Base.metadata.create_all(bind=engine)
+  SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+except:
+  print("Failed to connect to database")
+  sys.exit(1)
 
 description = """
 API to access counts from Providence, RI traffic cams. The cars are counted
@@ -58,7 +61,10 @@ def read_camera(camera_id: int, db: Session = Depends(get_db)):
 
 @app.get("/api/cameras/{camera_id}/datapoints",
   response_model=list[schema.DataPoint])
-def read_datapoints(camera_id: int, db: Session = Depends(get_db)):
+def read_datapoints(
+  camera_id: int, skip: int = 0, limit: int = 1000,
+  db: Session = Depends(get_db)):
   if crud.get_camera(db, camera_id=camera_id) is None:
     raise HTTPException(status_code=404, detail="Camera not found")
-  return crud.get_datapoints(db, camera_id=camera_id)
+  return crud.get_datapoints(
+    db, camera_id=camera_id, skip=skip, limit=limit)
