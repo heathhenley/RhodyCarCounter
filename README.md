@@ -32,7 +32,7 @@ The worker sticks the cameras and the results of the car counting into the
 database, and uploads the latest labelled image from a camera to s3. For
 example:
 
-![Most recent RT 6/10 cam with labels](https://rhodycarcounter.s3.amazonaws.com/6_10+interchange.jpg)
+![Most recent RT 6/10 cam with labels](https://rhodycarcounter.s3.amazonaws.com/6_10%20interchange.jpg)
 
 Currently the worker is running on my personal desktop 🙃. So uptime is going
 to be a little sketchy. I really just don't want to pay for cloud GPU time at the moment.
