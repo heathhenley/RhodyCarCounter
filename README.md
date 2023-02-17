@@ -34,7 +34,7 @@ database, and uploads the latest labelled image from a camera to s3.
 
 For example, here's the most recently processed snapshot from the traffic camera at the Rt 6/10 interchange across from the Providence Place mall.
 
-![Most recent RT 6/10 camera with labels](https://rhodycarcounter.s3.amazonaws.com/6_10+interchange.jpg)
+![Most recent RT 6/10 camera with labels](https://rhodycarcounter.s3.amazonaws.com/6_10+interchange.jpg?)
 
 Currently the worker is running on my personal desktop 🙃. So uptime is going
 to be a little sketchy. I really just don't want to pay for cloud GPU time at the moment.
