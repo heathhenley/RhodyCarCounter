@@ -1,5 +1,6 @@
 import sys
 from fastapi import Depends, FastAPI, HTTPException
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session, sessionmaker
 from database import db_utils, model
 import schema, crud
@@ -45,6 +46,9 @@ def get_db():
   finally:
     db.close()
 
+@app.get("/")
+def read_root():
+  return RedirectResponse(url="/docs")
 
 @app.get("/api/cameras/", response_model=list[schema.Camera])
 def read_cameras(
