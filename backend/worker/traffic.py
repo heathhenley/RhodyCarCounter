@@ -95,7 +95,9 @@ def detect_vehicles(
       try:
         with open(os.path.join('out', image_name), 'rb') as f:
           s3.Bucket(S3_BUCKET).put_object(
-            Key=image_name, Body=f, ContentType='image/jpeg')
+            Key=image_name, Body=f,
+            ContentType='image/jpeg',
+            CacheControl='max-age=300')
       except Exception as e:
         print("Failed to put in s3 bucket")
         print(e)
