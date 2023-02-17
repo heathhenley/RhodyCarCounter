@@ -28,9 +28,11 @@ Really, a train!?
 
 So we've got room to improve!
 
+#### Most Recent Images
 The worker sticks the cameras and the results of the car counting into the
-database, and uploads the latest labelled image from a camera to s3. For
-example:
+database, and uploads the latest labelled image from a camera to s3.
+
+For example, here's the most recently processed snapshot from the traffic camera at the Rt 6/10 interchange across from the Providence Place mall.
 
 ![Most recent RT 6/10 cam with labels](https://rhodycarcounter.s3.amazonaws.com/6_10%20interchange.jpg)
 
