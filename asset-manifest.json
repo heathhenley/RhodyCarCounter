@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.js": "/RhodyCarCounter/static/js/main.ac47adbd.js",
+    "main.js": "/RhodyCarCounter/static/js/main.b38a3ec2.js",
     "index.html": "/RhodyCarCounter/index.html",
-    "main.ac47adbd.js.map": "/RhodyCarCounter/static/js/main.ac47adbd.js.map"
+    "main.b38a3ec2.js.map": "/RhodyCarCounter/static/js/main.b38a3ec2.js.map"
   },
   "entrypoints": [
-    "static/js/main.ac47adbd.js"
+    "static/js/main.b38a3ec2.js"
   ]
 }
