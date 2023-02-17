@@ -94,7 +94,8 @@ def detect_vehicles(
       # TODO(Heath) fix image path and hacky close / open, global s3 name
       try:
         with open(os.path.join('out', image_name), 'rb') as f:
-          s3.Bucket(S3_BUCKET).put_object(Key=image_name, Body=f)
+          s3.Bucket(S3_BUCKET).put_object(
+            Key=image_name, Body=f, ContentType='image/jpeg')
       except Exception as e:
         print("Failed to put in s3 bucket")
         print(e)
