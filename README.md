@@ -61,5 +61,5 @@ removed the requirement from the requirement.txt file (it's only used by the
 worker) - I kept it in the requirements-all.txt file.
 
 ## Frontend
-WIP!
-Going to use the API described above to show the data  
+It's a work in progress (https://heathhenley.github.io/RhodyCarCounter/)
+Going to use the API described above to fetch the data and show it using react.
