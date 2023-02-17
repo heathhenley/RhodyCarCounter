@@ -28,7 +28,7 @@ function CameraTable(props) {
             <tr key={cam.id}>
               <td>{cam.id}</td>
               <td>{cam.name}</td>
-              <td>{cam.description}</td>
+              <td>{cam.description.replace("Camera at", "")}</td>
               <td><a href={cam.url}>Link</a></td>
               <td><a href={cameraNameToAWSLink(cam.name)}>Link</a></td>
               <td><a href="#">Show data</a></td>
