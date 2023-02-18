@@ -1,5 +1,8 @@
 import Container from 'react-bootstrap/Container';
 import Table from 'react-bootstrap/Table';
+import ModalImage from 'react-modal-image';
+import camera_icon from '../assets/camera_icon.png';
+import PlotModal from './PlotModal';
 
 
 function cameraNameToAWSLink(name) {
@@ -18,7 +21,6 @@ function CameraTable(props) {
             <th>ID</th>
             <th>Name</th>
             <th>Location</th>
-            <th>RI DOT Stream</th>
             <th>Latest Labeled</th>
             <th>Data for Camera</th>
           </tr>
@@ -27,11 +29,17 @@ function CameraTable(props) {
           {data.map((cam) => (
             <tr key={cam.id}>
               <td>{cam.id}</td>
-              <td>{cam.name}</td>
+              <td>{cam.name} <a href={cam.url}>(RIDOT)</a></td>
               <td>{cam.description.replace("Camera at", "")}</td>
-              <td><a href={cam.url}>Link</a></td>
-              <td><a href={cameraNameToAWSLink(cam.name)}>Link</a></td>
-              <td><a href="#">Show data</a></td>
+              <td><ModalImage
+                    small={camera_icon}
+                    large={cameraNameToAWSLink(cam.name)}
+                    alt={cam.description}/>
+              </td>
+              <td><PlotModal
+                    camera_name={cam.name}
+                    camera_id={cam.id}/>
+              </td>
             </tr>
           ))}
         </tbody>

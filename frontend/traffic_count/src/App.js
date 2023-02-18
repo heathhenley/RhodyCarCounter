@@ -24,9 +24,7 @@ function App() {
           <h1>Traffic Camera Data - Providence, RI</h1>
           <NavBarTraffic />
         </header>
-        <content>
           {camList ? <CameraTable data={camList}/> : <p>Loading...</p>}
-        </content>
       </Container>
     </div>
   );
