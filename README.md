@@ -63,3 +63,7 @@ worker) - I kept it in the requirements-all.txt file.
 ## Frontend
 It's a work in progress (https://heathhenley.github.io/RhodyCarCounter/)
 Going to use the API described above to fetch the data and show it using react.
+
+## Overall Current Architecture
+
+![Current Architecture](/docs/img/traffic_app_setup.png "Current Architecture")
