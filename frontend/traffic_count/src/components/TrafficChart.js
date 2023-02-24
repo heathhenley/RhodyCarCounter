@@ -3,11 +3,11 @@ import { CartesianGrid, LineChart, Line, XAxis, Tooltip, ResponsiveContainer } f
 function TrafficChart(props) {
   const formatTimestamps = (timestamp_in_seconds) => {
     let date = new Date(timestamp_in_seconds * 1000.0);
-    return date.toLocaleTimeString();
+    return date.toLocaleTimeString("en-US", {timeZone: "America/New_York"});
   }
   let data = props.data;
   data.forEach(x => {
-    x.timestamp_in_seconds = new Date(x.timestamp).getTime() / 1000.0;
+    x.timestamp_in_seconds = Date.parse(x.timestamp + "Z") / 1000.0;
   });
   
   return (
