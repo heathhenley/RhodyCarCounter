@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Container from 'react-bootstrap/Container';
 import CameraTable from './components/CameraTable';
-import NavBarTraffic from './components/navbar';
+import NavBarTraffic from './components/NavBarTraffic';
 
 function App() {
   let [camList, setCamList] = useState(null);
