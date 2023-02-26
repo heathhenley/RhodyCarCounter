@@ -1,9 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import Container from 'react-bootstrap/Container';
-import CameraTable from './components/CameraTable';
 import PageHeader from './components/PageHeader';
 
-function App() {
+function MapPage() {
   let [camList, setCamList] = useState(null);
 
   useEffect(
@@ -18,13 +17,13 @@ function App() {
   []);
 
   return (
-    <div className="App">
+    <div className="MapPage">
       <Container>
         <PageHeader />
-        {camList ? <CameraTable data={camList}/> : <p>Loading...</p>}
+        There will be a map here!
       </Container>
     </div>
   );
 }
 
-export default App;
+export default MapPage;

@@ -1,4 +1,4 @@
-import { CartesianGrid, BarChart, Line, XAxis, YAxis, Tooltip, Bar,
+import { CartesianGrid, BarChart, XAxis, YAxis, Tooltip, Bar,
          ResponsiveContainer } from 'recharts';
 
 
