@@ -18,6 +18,8 @@ class Camera(BaseModel):
   description: str
   name: str
   url: str
+  latitude: float | None
+  longitude: float | None
 
   class Config:
     orm_mode = True
