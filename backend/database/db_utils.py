@@ -43,19 +43,37 @@ def insert_data(camera_id, timestamp, image_name, vehicles, engine):
     ))
     session.commit()
 
+def add_lat_lon(name, lat, lon, engine):
+  with sqlalchemy.orm.Session(engine) as session:
+    session.query(model.Camera).filter_by(name=name).update({
+      model.Camera.latitude: lat,
+      model.Camera.longitude: lon
+    })
+    session.commit()
+
 def main():
   engine = get_engine()
   model.Base.metadata.create_all(bind=engine)
 
-  print("Upsert!")
-  # insert cameras if not in db
-  upsert_cameras_bulk(
-    engine,
-    worker.utils.get_cams_from_page(worker.utils.CAM_LIST_URL))
+  # read csv with camer names and lat / lon
+  filename = "cam_locations.csv"
+  with open(filename, "r") as f:
+    lines = f.readlines()
+    for idx, line in enumerate(lines):
+      if idx == 0:
+        continue
+      camera_name, lat, lon = line.split(",")
+      print(camera_name, lat, lon)
+      add_lat_lon(camera_name, float(lat), float(lon), engine)
 
-  print("Query them back!")
-  # print them back out
-  print(get_camera_list(engine))
+  #print("Upsert!")
+  ## insert cameras if not in db
+  #upsert_cameras_bulk(
+  #  engine,
+  #  worker.utils.get_cams_from_page(worker.utils.CAM_LIST_URL))
+  #print("Query them back!")
+  ## print them back out
+  #print(get_camera_list(engine))
 
 
 if __name__ == "__main__":

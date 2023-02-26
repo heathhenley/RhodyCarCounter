@@ -19,6 +19,8 @@ class Camera(Base):
     description: Mapped[str]
     name: Mapped[Optional[str]]
     url: Mapped[str]
+    latitude: Mapped[Optional[float]]
+    longitude: Mapped[Optional[float]]
 
     def __repr__(self) -> str:
         return f"Name(name={self.name!r})"
