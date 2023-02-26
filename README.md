@@ -1,6 +1,9 @@
 # RhodyCarCounter
 Use Yolo to count the cars passing by traffic cams mostly in the Providence, RI area. 
 
+## Overall Current Architecture
+![Current Architecture](/docs/img/traffic_app_setup.png "Current Architecture")
+
 ## Backend
 ### Data and API
 Uses Postgres database to store the data, and `FastAPI` with `sqlalchemy` to serve the data up for a public API. The API can be tested ([here](https://rhodycarcounter-production.up.railway.app/api/cameras) and [docs](https://rhodycarcounter-production.up.railway.app/docs/)).
@@ -63,7 +66,3 @@ worker) - I kept it in the requirements-all.txt file.
 ## Frontend
 It's a work in progress (https://heathhenley.github.io/RhodyCarCounter/)
 Going to use the API described above to fetch the data and show it using react.
-
-## Overall Current Architecture
-
-![Current Architecture](/docs/img/traffic_app_setup.png "Current Architecture")
