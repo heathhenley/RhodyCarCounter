@@ -12,7 +12,7 @@ function NavBarTraffic() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link as={Link} to="/RhodyCarCounter">Chart</Nav.Link>
+            <Nav.Link as={Link} to="/RhodyCarCounter">Table</Nav.Link>
             <Nav.Link as={Link} to="/RhodyCarCounter/map">Map</Nav.Link>
             <Nav.Link href="https://rhodycarcounter-production.up.railway.app/docs">API</Nav.Link>
             <Nav.Link href="https://github.com/heathhenley/RhodyCarCounter">GitHub</Nav.Link>

@@ -3,12 +3,8 @@ import Table from 'react-bootstrap/Table';
 import ModalImage from 'react-modal-image';
 import camera_icon from '../assets/camera_icon.png';
 import PlotModal from './PlotModal';
+import { cameraNameToAWSLink } from '../utils/utils';
 
-
-function cameraNameToAWSLink(name) {
-  let aws = "https://rhodycarcounter.s3.amazonaws.com/";
-  return aws + name.toLowerCase().replace('/', '_') + ".jpg";
-}
 
 function CameraTable(props) {
   let data = props.data;
