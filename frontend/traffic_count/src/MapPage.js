@@ -1,21 +1,10 @@
-import React, {useState, useEffect} from 'react';
+import React from 'react';
 import Container from 'react-bootstrap/Container';
+import { useLoaderData } from 'react-router-dom';
 import PageHeader from './components/PageHeader';
 
 function MapPage() {
-  let [camList, setCamList] = useState(null);
-
-  useEffect(
-    () => {
-      const getCamList = async () => {
-        const response = await fetch("https://rhodycarcounter-production.up.railway.app/api/cameras/");
-        const data = await response.json();
-        setCamList(data);
-      };
-      getCamList();
-    },
-  []);
-
+  let camList = useLoaderData().cameras;
   return (
     <div className="MapPage">
       <Container>
