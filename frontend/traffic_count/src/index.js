@@ -1,21 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
+import { createBrowserRouter, RouterProvider} from "react-router-dom";
+
+import TablePage from './TablePage';
 import MapPage from './MapPage';
 
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from "react-router-dom";
+
+const getCamList = async () => {
+  const response = await fetch("https://rhodycarcounter-production.up.railway.app/api/cameras/");
+  const data = await response.json();
+  return data;
+}
+
+async function camListLoader() {
+  const cameras = await getCamList();
+  return { cameras };
+}
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <App />,
+    path: "/RhodyCarCounter",
+    element: <TablePage />,
+    loader: camListLoader,
   },
   {
-    path: "/map",
+    path: "/RhodyCarCounter/map",
     element: <MapPage />,
+    loader: camListLoader,
   }
 ]);
 
