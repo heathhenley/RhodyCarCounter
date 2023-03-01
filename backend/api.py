@@ -71,6 +71,38 @@ def read_camera(camera_id: int, db: Session = Depends(get_db)):
     raise HTTPException(status_code=404, detail="Camera not found")
   return camera
 
+def compute_camera_status(
+    average_count: float,
+    std_dev: float,
+    current_count: float,
+    factor: float=0.1) -> str:
+  """ Compute traffic status based on average, std dev, and current count. """
+  width_of_bands = factor * std_dev
+  if current_count > (average_count + width_of_bands):
+    return "busy"
+  if current_count < (average_count - width_of_bands):
+    return "slow"
+  return "normal"
+ 
+@app.get("/api/cameras/{camera_id}/status/", response_model=schema.CameraStatus)
+def read_camera_status(camera_id: int, db: Session = Depends(get_db)):
+  camera = crud.get_camera(db, camera_id=camera_id)
+  if camera is None:
+    raise HTTPException(status_code=404, detail="Camera not found")
+  average_count, std_dev = crud.get_average(db, camera_id=camera_id, limit=2000)
+  latest = crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)
+  status = compute_camera_status(
+    average_count,
+    std_dev,
+    float(latest[0].vehicles),
+    factor=0.10)
+  return {
+    "status": status,
+    "timestamp": latest[0].timestamp,
+    "average": average_count,
+    "std_dev": std_dev
+  }
+
 @app.get("/api/cameras/{camera_id}/datapoints",
   response_model=list[schema.DataPoint])
 def read_datapoints(

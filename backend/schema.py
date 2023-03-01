@@ -25,4 +25,8 @@ class Camera(BaseModel):
     orm_mode = True
 
 
-
+class CameraStatus(BaseModel):
+  status: str
+  average: float
+  std_dev: float
+  timestamp: datetime.datetime
