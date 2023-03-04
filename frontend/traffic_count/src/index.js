@@ -6,7 +6,7 @@ import TablePage from './TablePage';
 import MapPage from './MapPage';
 
 const getCamList = async (status) => {
-  const response = await fetch("https://rhodycarcounter-production.up.railway.app/api/cameras?status=" + status);
+  const response = await fetch("https://rhodycarcounter-production.up.railway.app/api/cameras/?status=" + status);
   const data = await response.json();
   return data;
 }
