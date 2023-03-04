@@ -5,14 +5,19 @@ import { createBrowserRouter, RouterProvider} from "react-router-dom";
 import TablePage from './TablePage';
 import MapPage from './MapPage';
 
-const getCamList = async () => {
-  const response = await fetch("https://rhodycarcounter-production.up.railway.app/api/cameras/");
+const getCamList = async (status) => {
+  const response = await fetch("https://rhodycarcounter-production.up.railway.app/api/cameras?status=" + status);
   const data = await response.json();
   return data;
 }
 
 async function camListLoader() {
-  const cameras = await getCamList();
+  const cameras = await getCamList(true);
+  return { cameras };
+}
+
+async function camListLoaderNoStatus() {
+  const cameras = await getCamList(false);
   return { cameras };
 }
 
@@ -25,7 +30,7 @@ const router = createBrowserRouter([
   {
     path: "/RhodyCarCounter/map",
     element: <MapPage />,
-    loader: camListLoader,
+    loader: camListLoaderNoStatus,
   }
 ]);
 

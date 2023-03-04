@@ -26,7 +26,7 @@ class Camera(BaseModel):
   url: str
   latitude: float | None
   longitude: float | None
-  status: CameraStatus
+  status: CameraStatus | None
 
   class Config:
     orm_mode = True

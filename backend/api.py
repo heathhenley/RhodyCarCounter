@@ -60,23 +60,25 @@ def read_root():
 
 @app.get("/api/cameras/", response_model=list[schema.Camera])
 def read_cameras(
-  skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
+    skip: int = 0, limit: int = 100, status: bool = False,
+    db: Session = Depends(get_db)):
   cameras = crud.get_cameras(db, skip=skip, limit=limit)
-  for camera in cameras:
-    average_count, std_dev = crud.get_average(
-      db, camera_id=camera.id, limit=2000)
-    latest = crud.get_datapoints(db, camera_id=camera.id, skip=0, limit=1)
-    status = compute_camera_status(
-      average_count,
-      std_dev,
-      float(latest[0].vehicles),
-      factor=0.25)
-    camera.status = {
-      "status": status,
-      "timestamp": latest[0].timestamp,
-      "average": average_count,
-      "std_dev": std_dev
-    }
+  if status:
+    for camera in cameras:
+      average_count, std_dev = crud.get_average(
+        db, camera_id=camera.id, limit=2000)
+      latest = crud.get_datapoints(db, camera_id=camera.id, skip=0, limit=1)
+      status = compute_camera_status(
+        average_count,
+        std_dev,
+        float(latest[0].vehicles),
+        factor=0.25)
+      camera.status = {
+        "status": status,
+        "timestamp": latest[0].timestamp,
+        "average": average_count,
+        "std_dev": std_dev
+      }
   return cameras
 
 @app.get("/api/cameras/{camera_id}", response_model=schema.Camera)
