@@ -69,6 +69,19 @@ def read_camera(camera_id: int, db: Session = Depends(get_db)):
   camera = crud.get_camera(db, camera_id=camera_id)
   if camera is None:
     raise HTTPException(status_code=404, detail="Camera not found")
+  average_count, std_dev = crud.get_average(db, camera_id=camera_id, limit=2000)
+  latest = crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)
+  status = compute_camera_status(
+    average_count,
+    std_dev,
+    float(latest[0].vehicles),
+    factor=0.25)
+  camera.status = {
+    "status": status,
+    "timestamp": latest[0].timestamp,
+    "average": average_count,
+    "std_dev": std_dev
+  }
   return camera
 
 def compute_camera_status(
@@ -95,7 +108,7 @@ def read_camera_status(camera_id: int, db: Session = Depends(get_db)):
     average_count,
     std_dev,
     float(latest[0].vehicles),
-    factor=0.10)
+    factor=0.25)
   return {
     "status": status,
     "timestamp": latest[0].timestamp,

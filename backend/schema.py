@@ -1,6 +1,12 @@
 import datetime
 from pydantic import BaseModel
 
+class CameraStatus(BaseModel):
+  status: str
+  average: float
+  std_dev: float
+  timestamp: datetime.datetime
+
 
 class DataPoint(BaseModel):
   id: int
@@ -20,13 +26,7 @@ class Camera(BaseModel):
   url: str
   latitude: float | None
   longitude: float | None
+  status: CameraStatus
 
   class Config:
     orm_mode = True
-
-
-class CameraStatus(BaseModel):
-  status: str
-  average: float
-  std_dev: float
-  timestamp: datetime.datetime

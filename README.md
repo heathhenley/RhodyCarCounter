@@ -65,4 +65,7 @@ worker) - I kept it in the requirements-all.txt file.
 
 ## Frontend
 It's a work in progress (https://heathhenley.github.io/RhodyCarCounter/)
-Going to use the API described above to fetch the data and show it using react.
+
+Using react, react-bootstrap, and react-leaftlet to create a map of the cameras
+and the counts and show a table of all the available cameras. Uses recharts to
+plot the latests data.
