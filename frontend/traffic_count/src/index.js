@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider} from "react-router-dom";
+import { createBrowserRouter, RouterProvider, defer} from "react-router-dom";
 
 import TablePage from './TablePage';
 import MapPage from './MapPage';
@@ -12,8 +12,8 @@ const getCamList = async (status) => {
 }
 
 async function camListLoader() {
-  const cameras = await getCamList(true);
-  return { cameras };
+  const cameras = getCamList(true);
+  return defer({ cameras });
 }
 
 async function camListLoaderNoStatus() {

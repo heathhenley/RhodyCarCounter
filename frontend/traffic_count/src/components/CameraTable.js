@@ -29,9 +29,8 @@ const StatusBadge = ({ id, status }) => {
 }
 
 
-function CameraTable(props) {
-  let data = props.data;
-
+function CameraTable({ cameras}) {
+  cameras = cameras.sort((a, b) => (a.id > b.id) ? 1 : -1);
   return (
     <Container>
       <h2>Camera Table</h2>
@@ -46,7 +45,7 @@ function CameraTable(props) {
           </tr>
         </thead>
         <tbody>
-          {data.map((cam) => (
+          {cameras.map((cam) => (
             <tr key={cam.id}>
               <td>{cam.id}</td>
               <td>{cam.name} <StatusBadge
