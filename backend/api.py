@@ -6,6 +6,18 @@ from sqlalchemy.orm import Session, sessionmaker
 from database import db_utils, model
 import schema, crud
 
+# Average and std dev cars detected (estimated used sql query of all data
+# points). Hope to eventually put back camera specific values, calculated on
+# the fly or cached in the db, daily or weekly maybe.
+DEFAULT_AVERAGE = 4.0
+DEFAULT_STD_DEV = 2.0
+
+# Factor to use when computing status. 1.0 means everything between average
+# +/- std dev is normal, 0.5 means everything between average +/- 0.5 * std dev
+# is normal, etc.
+DEFAULT_FACTOR = 1.0
+
+
 try:
   engine = db_utils.get_engine()
   model.Base.metadata.create_all(bind=engine)
@@ -31,7 +43,7 @@ You can **read datapoints** to get the number of cars found in `camera_id` at th
 
 
 app = FastAPI(
-  title="Providence Traffic Cam API",
+  title="Providence Traffic Camera API",
   description=description,
   contact={
     "name": "Heath Henley",
@@ -54,9 +66,28 @@ def get_db():
   finally:
     db.close()
 
+
+""" Helper functions for computing status for a given camera """
+def get_status(
+    camera_id: int, factor=1.0,
+    db: Session = Depends(get_db)) -> schema.CameraStatus:
+  # TODO(Heath): Computing average and std dev per cameras is slow and the model
+  # is not good enough that this extra work is worth it. I'm going to remove it
+  # for now, but I'd like to add it back in the future. To put it back, just
+  # compute the average and std dev and pass to compute_camera_status.
+  latest = crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)
+  status = compute_camera_status(float(latest[0].vehicles), factor=factor)
+  return {
+    "status": status,
+    "timestamp": latest[0].timestamp,
+    "current": latest[0].vehicles
+  }
+
+
 @app.get("/")
 def read_root():
   return RedirectResponse(url="/docs")
+
 
 @app.get("/api/cameras/", response_model=list[schema.Camera])
 def read_cameras(
@@ -65,46 +96,23 @@ def read_cameras(
   cameras = crud.get_cameras(db, skip=skip, limit=limit)
   if status:
     for camera in cameras:
-      average_count, std_dev = crud.get_average(
-        db, camera_id=camera.id, limit=2000)
-      latest = crud.get_datapoints(db, camera_id=camera.id, skip=0, limit=1)
-      status = compute_camera_status(
-        average_count,
-        std_dev,
-        float(latest[0].vehicles),
-        factor=1.0)
-      camera.status = {
-        "status": status,
-        "timestamp": latest[0].timestamp,
-        "average": average_count,
-        "std_dev": std_dev
-      }
+      camera.status = get_status(camera.id, factor=1.0, db=db)
   return cameras
+
 
 @app.get("/api/cameras/{camera_id}", response_model=schema.Camera)
 def read_camera(camera_id: int, db: Session = Depends(get_db)):
   camera = crud.get_camera(db, camera_id=camera_id)
   if camera is None:
     raise HTTPException(status_code=404, detail="Camera not found")
-  average_count, std_dev = crud.get_average(db, camera_id=camera_id, limit=2000)
-  latest = crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)
-  status = compute_camera_status(
-    average_count,
-    std_dev,
-    float(latest[0].vehicles),
-    factor=1.0)
-  camera.status = {
-    "status": status,
-    "timestamp": latest[0].timestamp,
-    "average": average_count,
-    "std_dev": std_dev
-  }
+  camera.status = get_status(camera.id, factor=1.0, db=db)
   return camera
 
+
 def compute_camera_status(
-    average_count: float,
-    std_dev: float,
     current_count: float,
+    average_count: float = DEFAULT_AVERAGE,
+    std_dev: float = DEFAULT_STD_DEV,
     factor: float=0.1) -> str:
   """ Compute traffic status based on average, std dev, and current count. """
   width_of_bands = factor * std_dev
@@ -114,24 +122,14 @@ def compute_camera_status(
     return "slow"
   return "normal"
  
+
 @app.get("/api/cameras/{camera_id}/status/", response_model=schema.CameraStatus)
 def read_camera_status(camera_id: int, db: Session = Depends(get_db)):
   camera = crud.get_camera(db, camera_id=camera_id)
   if camera is None:
     raise HTTPException(status_code=404, detail="Camera not found")
-  average_count, std_dev = crud.get_average(db, camera_id=camera_id, limit=2000)
-  latest = crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)
-  status = compute_camera_status(
-    average_count,
-    std_dev,
-    float(latest[0].vehicles),
-    factor=1.0)
-  return {
-    "status": status,
-    "timestamp": latest[0].timestamp,
-    "average": average_count,
-    "std_dev": std_dev
-  }
+  return get_status(camera_id, factor=DEFAULT_FACTOR, db=db)
+
 
 @app.get("/api/cameras/{camera_id}/datapoints",
   response_model=list[schema.DataPoint])

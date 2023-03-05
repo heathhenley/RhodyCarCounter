@@ -3,9 +3,10 @@ from pydantic import BaseModel
 
 class CameraStatus(BaseModel):
   status: str
-  average: float
-  std_dev: float
+  current: int
   timestamp: datetime.datetime
+  average: float | None
+  std_dev: float | None
 
 
 class DataPoint(BaseModel):
