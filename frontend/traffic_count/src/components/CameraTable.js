@@ -42,7 +42,6 @@ function CameraTable({ cameras}) {
             <th>ID</th>
             <th>Name</th>
             <th>Location</th>
-            <th>Latest Labeled</th>
             <th>Data for Camera</th>
           </tr>
         </thead>
@@ -50,17 +49,26 @@ function CameraTable({ cameras}) {
           {cameras.map((cam) => (
             <tr key={cam.id}>
               <td>{cam.id}</td>
-              <td>{cam.name} <StatusBadge
-                                id={cam.id}
-                                status={cam.status}
-                                />
+              <td>
+                <div className="d-flex justify-content-start">
+                  <div>
+                    {cam.name}
+                    <span className="ps-1"></span>
+                    <StatusBadge
+                      id={cam.id}
+                      status={cam.status}
+                    />
+                  </div>
+                  <div className='ps-1'>
+                    <ModalImage
+                      small={camera_icon}
+                      large={cameraNameToAWSLink(cam.name)}
+                      alt={cam.description}
+                    />
+                  </div>
+                </div>
               </td>
               <td>{cam.description.replace("Camera at", "")}</td>
-              <td><ModalImage
-                    small={camera_icon}
-                    large={cameraNameToAWSLink(cam.name)}
-                    alt={cam.description}/>
-              </td>
               <td><PlotModal
                     camera_name={cam.name}
                     camera_id={cam.id}/>
