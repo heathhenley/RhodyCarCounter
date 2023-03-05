@@ -32,8 +32,10 @@ const StatusBadge = ({ id, status }) => {
 function CameraTable({ cameras}) {
   cameras = cameras.sort((a, b) => (a.id > b.id) ? 1 : -1);
   return (
-    <Container>
-      <h2>Camera Table</h2>
+    <Container className="mt-4 p-4 pt-2 shadow rounded">
+      <div className="">
+        <h2>Camera Table</h2>
+      </div>
       <Table striped bordered hover>
         <thead>
           <tr>

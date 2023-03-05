@@ -25,7 +25,7 @@ const MapView = ({ cameras }) => {
 
   return (
     <div className="MapView">
-      <MapContainer center={position} zoom={13} style={{ height: "90vh" }}>
+      <MapContainer className="mt-4 p-4 pt-2 shadow rounded" center={position} zoom={13} style={{ height: "70vh" }}>
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
