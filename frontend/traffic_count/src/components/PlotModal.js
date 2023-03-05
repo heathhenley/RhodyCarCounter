@@ -22,7 +22,7 @@ function PlotModal(props) {
   return (
     <>
       <Button variant="link" onClick={handleShow}>
-        Show Data
+        Chart
       </Button>
 
       <Modal size="lg" show={show} onHide={handleClose}>

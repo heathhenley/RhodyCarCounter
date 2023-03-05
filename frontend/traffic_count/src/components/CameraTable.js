@@ -41,34 +41,28 @@ function CameraTable({ cameras}) {
       <Table striped bordered hover>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>Feed</th>
             <th>Name</th>
             <th>Location</th>
-            <th>Data for Camera</th>
+            <th>Data</th>
           </tr>
         </thead>
         <tbody>
           {cameras.map((cam) => (
             <tr key={cam.id}>
-              <td>{cam.id}</td>
-              <td>
-                <div className="d-flex justify-content-start">
-                  <div>
-                    {cam.name}
-                    <span className="ps-1"></span>
-                    <StatusBadge
-                      id={cam.id}
-                      status={cam.status}
-                    />
-                  </div>
-                  <div className='ps-1'>
-                    <ModalImage
+              <td><ModalImage
                       small={camera_icon}
                       large={cameraNameToAWSLink(cam.name)}
                       alt={cam.description}
                     />
-                  </div>
-                </div>
+              </td>
+              <td>
+                {cam.name}
+                <span className="ps-1"></span>
+                <StatusBadge
+                  id={cam.id}
+                  status={cam.status}
+                />
               </td>
               <td>{cam.description.replace("Camera at", "")}</td>
               <td><PlotModal
