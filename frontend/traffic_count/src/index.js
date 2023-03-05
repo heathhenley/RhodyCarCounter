@@ -22,6 +22,8 @@ async function camListLoaderNoStatus() {
   return defer({ cameras });
 }
 
+// Using the hash router for now so that I can use GitHub pages to host it (it
+// doesn't allow all server routes to be redirected to index.html)
 const router = createHashRouter(
   [
     {
