@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { createBrowserRouter, RouterProvider, defer} from "react-router-dom";
+import { createHashRouter, RouterProvider, defer} from "react-router-dom";
 import Error from './components/Error';
 
 import TablePage from './TablePage';
@@ -22,7 +22,7 @@ async function camListLoaderNoStatus() {
   return { cameras };
 }
 
-const router = createBrowserRouter(
+const router = createHashRouter(
   [
     {
       path: "/",
@@ -36,8 +36,7 @@ const router = createBrowserRouter(
       loader: camListLoaderNoStatus,
       errorElement: <Error />,
     }
-    ],
-  { basename: "/RhodyCarCounter" }
+  ]
 );
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
