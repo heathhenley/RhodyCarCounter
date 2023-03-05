@@ -19,7 +19,7 @@ async function camListLoader() {
 
 async function camListLoaderNoStatus() {
   const cameras = await getCamList(false);
-  return { cameras };
+  return defer({ cameras });
 }
 
 const router = createHashRouter(
