@@ -22,21 +22,23 @@ async function camListLoaderNoStatus() {
   return { cameras };
 }
 
-const router = createBrowserRouter([
-  {
-    basename: "/RhodyCarCounter",
-    path: "/",
-    element: <TablePage />,
-    loader: camListLoader,
-    errorElement: <Error />,
-  },
-  {
-    path: "/map",
-    element: <MapPage />,
-    loader: camListLoaderNoStatus,
-    errorElement: <Error />,
-  }
-]);
+const router = createBrowserRouter(
+  [
+    {
+      path: "/",
+      element: <TablePage />,
+      loader: camListLoader,
+      errorElement: <Error />,
+    },
+    {
+      path: "/map",
+      element: <MapPage />,
+      loader: camListLoaderNoStatus,
+      errorElement: <Error />,
+    }
+    ],
+  { basename: "/RhodyCarCounter" }
+);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
