@@ -72,7 +72,7 @@ def read_cameras(
         average_count,
         std_dev,
         float(latest[0].vehicles),
-        factor=0.25)
+        factor=1.0)
       camera.status = {
         "status": status,
         "timestamp": latest[0].timestamp,
@@ -92,7 +92,7 @@ def read_camera(camera_id: int, db: Session = Depends(get_db)):
     average_count,
     std_dev,
     float(latest[0].vehicles),
-    factor=0.25)
+    factor=1.0)
   camera.status = {
     "status": status,
     "timestamp": latest[0].timestamp,
@@ -125,7 +125,7 @@ def read_camera_status(camera_id: int, db: Session = Depends(get_db)):
     average_count,
     std_dev,
     float(latest[0].vehicles),
-    factor=0.25)
+    factor=1.0)
   return {
     "status": status,
     "timestamp": latest[0].timestamp,
