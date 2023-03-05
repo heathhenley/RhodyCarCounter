@@ -42,6 +42,8 @@ const router = createHashRouter(
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router}/>
+    <div style= {{ backgroundColor: "#F9F9F9"}}>
+      <RouterProvider router={router}/>
+    </div>
   </React.StrictMode>
 );

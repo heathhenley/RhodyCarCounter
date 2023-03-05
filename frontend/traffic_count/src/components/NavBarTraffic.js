@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 
 function NavBarTraffic() {
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg" className="rounded">
       <Container>
         <Navbar.Brand as={Link} to="/">Rhody Car Counter</Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
