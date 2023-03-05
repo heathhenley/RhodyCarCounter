@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider, defer} from "react-router-dom";
+import Error from './components/Error';
 
 import TablePage from './TablePage';
 import MapPage from './MapPage';
@@ -23,14 +24,17 @@ async function camListLoaderNoStatus() {
 
 const router = createBrowserRouter([
   {
-    path: "/RhodyCarCounter",
+    basename: "/RhodyCarCounter",
+    path: "/",
     element: <TablePage />,
     loader: camListLoader,
+    errorElement: <Error />,
   },
   {
-    path: "/RhodyCarCounter/map",
+    path: "/map",
     element: <MapPage />,
     loader: camListLoaderNoStatus,
+    errorElement: <Error />,
   }
 ]);
 
