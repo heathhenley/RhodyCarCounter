@@ -3,7 +3,7 @@ import NavBarTraffic from './NavBarTraffic';
 const PageHeader = () => {
   return (
     <header
-      className="App-header shadow rounded"
+      className="App-header shadow rounded mt-3"
       style={{ backgroundColor: 'white'}}>
       <div className="p-4 d-flex flex-column justify-content-center align-items-center">
         <h1>Traffic Cams in Providence, RI</h1>

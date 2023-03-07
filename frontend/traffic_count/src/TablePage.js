@@ -11,7 +11,7 @@ function TablePage() {
 
   return (
     <div className="TablePage">
-      <Container>
+      <Container className="mb-3">
         <PageHeader />
         <React.Suspense fallback={<Loading />}>
           <Await resolve={data.cameras} errorElement={<p>Error</p>}>
