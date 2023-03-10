@@ -9,7 +9,6 @@ import boto3
 from ultralytics import YOLO
 
 import database.db_utils as db_utils
-import database.model as model
 
 S3_BUCKET = 'rhodycarcounter'
 
