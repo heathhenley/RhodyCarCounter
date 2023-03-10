@@ -1,2 +1,2 @@
 [phases.setup]
-aptPkgs = ["...", "libgl1"]
+aptPkgs = ["...", "python3-opencv"]
