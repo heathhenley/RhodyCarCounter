@@ -5,7 +5,7 @@ import requests
 import time
 
 import boto3
-
+import torch
 from ultralytics import YOLO
 
 import database.db_utils as db_utils
@@ -38,7 +38,7 @@ def download_image(url: str, cam_name: str):
 # MVP, TBD
 def detect_vehicles(data_callback=None):
   # Load model
-  yolo_model = YOLO("train_13epochs_on_traffic.pt", task='detect')
+  yolo_model = YOLO("train_13epochs_on_traffic_cpu.pt", task='detect')
   
   s3 = boto3.resource('s3')
   engine = db_utils.get_engine()
