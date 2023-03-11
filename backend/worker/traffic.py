@@ -38,7 +38,9 @@ def download_image(url: str, cam_name: str):
 def detect_vehicles(data_callback=None):
   # Load model
   yolo_model = YOLO("train_13epochs_on_traffic_gpu.pt", task='detect')
-  
+  # Some setup
+  if not os.path.exists("images"):
+    os.makedirs("images")
   s3 = boto3.resource('s3')
   engine = db_utils.get_engine()
   cameras = db_utils.get_camera_list(engine)
