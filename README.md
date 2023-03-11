@@ -10,8 +10,7 @@ Uses Postgres database to store the data, and `FastAPI` with `sqlalchemy` to ser
 
 ### Car Detection Model
 Originally created to play around with the Yolo model implementation introduced
-through a programming assignment in the deeplearning.ai [Deep Learning courses](https://www.deeplearning.ai/courses/deep-learning-specialization/) on Coursera. Uses the YOLOv8 pretrained model from [ultralytics](https://docs.ultralytics.com/). I then trained it a little bit on some of the traffic cam data that is publically available a this [paper](https://proceedings.neurips.cc/paper/2019/file/ee389847678a3a9d1ce9e4ca69200d06-Paper.pdf), but we have a lot of room to improve. It pulls all the
-cam data from the PVD traffic site.
+through a programming assignment in the deeplearning.ai [Deep Learning courses](https://www.deeplearning.ai/courses/deep-learning-specialization/) on Coursera. Uses the YOLOv8 pretrained model from [ultralytics](https://docs.ultralytics.com/). I then trained it a little bit on some of the traffic cam data that is publically available and was used for this [paper](https://proceedings.neurips.cc/paper/2019/file/ee389847678a3a9d1ce9e4ca69200d06-Paper.pdf). But we have a lot of room to improve. It pulls all the camera images directly from the [RIDOT](https://www.dot.ri.gov/travel/index.php) traffic site.
 
 #### Most Recent Images
 The worker sticks the cameras and the results of the car counting into the
