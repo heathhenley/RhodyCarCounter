@@ -3,9 +3,6 @@ import sqlalchemy
 
 import database.model as model
 
-# TODO(Heath): utils should move out of worker
-import worker.utils
-
 
 def get_engine(db_connect_str=os.environ.get("DB_CONNECT_STR")):
   return sqlalchemy.create_engine(db_connect_str, echo=False)
@@ -65,15 +62,6 @@ def main():
       camera_name, lat, lon = line.split(",")
       print(camera_name, lat, lon)
       add_lat_lon(camera_name, float(lat), float(lon), engine)
-
-  #print("Upsert!")
-  ## insert cameras if not in db
-  #upsert_cameras_bulk(
-  #  engine,
-  #  worker.utils.get_cams_from_page(worker.utils.CAM_LIST_URL))
-  #print("Query them back!")
-  ## print them back out
-  #print(get_camera_list(engine))
 
 
 if __name__ == "__main__":
