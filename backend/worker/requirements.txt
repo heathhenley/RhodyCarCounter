@@ -34,6 +34,7 @@ soupsieve==2.4
 SQLAlchemy==2.0.5.post1
 thop==0.1.1.post2209072238
 torch==1.13.1
+torchaudio==0.13.1
 torchvision==0.14.1
 tqdm==4.65.0
 typing_extensions==4.5.0
