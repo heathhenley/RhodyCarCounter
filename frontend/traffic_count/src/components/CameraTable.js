@@ -29,7 +29,7 @@ const StatusBadge = ({ id, status }) => {
 }
 
 
-function CameraTable({ cameras}) {
+function CameraTable({ cameras }) {
   cameras = cameras.sort((a, b) => (a.id > b.id) ? 1 : -1);
   return (
     <Container
