@@ -28,9 +28,14 @@ except:
 
 description = """
 API to access counts from Providence, RI traffic cams. The cars are counted
-using YOLOv2. I'm planning to fine tune the model, params were trained on self
-driving car data so it's not perfect. The model itself was adapted from
-the Coursera deep learning course project on the Yolo model.
+using YOLOv8. I'm planning to fine tune the model to improves accuracy, it was
+a pretrained model that I trained an a publically available dataset from traffic
+cameras. Using data from the actual Rhode Island cameras should improve it a lot
+and I also need to get a bunch of night bad weather data (it stuggles a
+bit there).
+
+The camera locations are approximate, I used the description of the location,
+the feed and Google StreetView to estimate the latitute and longitude.
 
 ## Cameras
 Represents a camera, stream available at the included URL. You can
@@ -43,7 +48,7 @@ You can **read datapoints** to get the number of cars found in `camera_id` at th
 
 
 app = FastAPI(
-  title="Providence Traffic Camera API",
+  title="Rhody Car Counter API",
   description=description,
   contact={
     "name": "Heath Henley",
