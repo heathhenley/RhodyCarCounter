@@ -9,8 +9,8 @@ import schema, crud
 # Average and std dev cars detected (estimated used sql query of all data
 # points). Hope to eventually put back camera specific values, calculated on
 # the fly or cached in the db, daily or weekly maybe.
-DEFAULT_AVERAGE = 10.0
-DEFAULT_STD_DEV = 2.0
+DEFAULT_AVERAGE = 16.0
+DEFAULT_STD_DEV = 4.0
 
 # Factor to use when computing status. 1.0 means everything between average
 # +/- std dev is normal, 0.5 means everything between average +/- 0.5 * std dev
