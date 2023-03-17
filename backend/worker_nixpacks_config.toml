@@ -4,6 +4,7 @@ buildImage = 'ghcr.io/railwayapp/nixpacks:ubuntu-1678147396'
 [variables]
 NIXPACKS_METADATA = 'python,postgres'
 PYTHONUNBUFFERED = '1'
+LD_LIBRARY_PATH='$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/'
 
 [phases.install]
 dependsOn = ['setup']
@@ -26,4 +27,4 @@ nixOverlays = []
 nixpkgsArchive = '293a28df6d7ff3dec1e61e37cc4ee6e6c0fb0847'
 
 [start]
-cmd="python worker/traffic.py"
+cmd='python worker/traffic.py'
