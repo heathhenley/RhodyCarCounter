@@ -37,7 +37,9 @@ def download_image(url: str, cam_name: str):
 # MVP, TBD
 def detect_vehicles(data_callback=None):
   # Load model
-  yolo_model = YOLO("train_13epochs_on_traffic_gpu.pt", task='detect')
+  model_path = os.path.dirname(os.path.realpath(__file__))
+  yolo_model = YOLO(
+    os.path.join(model_path, "train_13epochs_on_traffic_gpu.pt"), task='detect')
   # Some setup
   if not os.path.exists("images"):
     os.makedirs("images")
