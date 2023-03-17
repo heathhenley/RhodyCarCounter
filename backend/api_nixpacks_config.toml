@@ -1,8 +1,5 @@
 providers = ['...', 'python']
 
-[variables]
-  PYTHONPATH="$PYTHONPATH:./:./api"
-
 [phases.install]
  cmds=["...", "python -m venv /opt/venv && . /opt/venv/bin/activate && pip install -r requirements-api.txt"]
 

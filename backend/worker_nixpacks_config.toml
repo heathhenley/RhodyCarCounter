@@ -2,7 +2,6 @@ providers = ['...', 'python']
 
 [variables]
   LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/"
-  PYTHONPATH="$PYTHONPATH:./:./worker"
 
 [phases.setup]
   aptPkgs = ['...', 'libgl1']
