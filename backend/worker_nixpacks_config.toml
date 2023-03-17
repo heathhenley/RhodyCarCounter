@@ -1,0 +1,14 @@
+providers = ['...', 'python']
+
+[variables]
+  LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/x86_64-linux-gnu/"
+  PYTHONPATH="$PYTHONPATH:./:./worker"
+
+[phases.setup]
+  aptPkgs = ['...', 'libgl1']
+
+[phases.install]
+ cmds=["...", "python -m venv /opt/venv && . /opt/venv/bin/activate && pip install -r requirements-worker.txt"]
+
+[start]
+  cmd="python worker/traffic.py"
