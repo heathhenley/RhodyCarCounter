@@ -36,11 +36,22 @@ def main():
   fig = px.density_mapbox(
             df, lat='Latitude', lon='Longitude', z='Vehicles', animation_frame='Timestamp', animation_group='Camera',
             radius=30, center=dict(lat=41.8258, lon=-71.41058), zoom=12,
-            range_color=[0, 20], mapbox_style="stamen-terrain",
+            range_color=[0, 20], mapbox_style="open-street-map",
             title="Providence, RI Traffic Density Map",
             opacity=0.75)
   fig.layout.updatemenus[0].buttons[0].args[1]['frame']['duration'] = 100
   fig.layout.updatemenus[0].buttons[0].args[1]['transition']['duration'] = 5
+  fig.layout.updatemenus[0].buttons[0].args[1]["automargin"] = False
+  fig.layout.updatemenus[0].buttons[0].args += ({"automargin" : False},)
+  fig.layout.updatemenus[0].buttons[1].args += ({"automargin" : False},)
+  fig.layout.updatemenus[0].buttons[1].args[1]["automargin"] =  False
+
+  for step in fig.layout.sliders[0]['steps']:
+    #print(step['args'])
+    step['args'] += ({"automargin": False},)
+  fig.update_xaxes(automargin=False)
+  fig.update_yaxes(automargin=False)
+  fig.update_coloraxes(showscale=False)
   fig.write_html("heatmap.html")
   fig.show()
   return 0
