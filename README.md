@@ -44,3 +44,33 @@ It's a work in progress (https://heathhenley.github.io/RhodyCarCounter/)
 Using react, react-bootstrap, and react-leaftlet to create a map of the cameras
 and the counts and show a table of all the available cameras. Uses recharts to
 plot the latests data.
+
+## How to run locally
+
+I just added a docker-compose file to run the backend and the frontend locally. You can run it with: `docker compose up` and it will spin up the API server on 
+http://localhost:5001, a postgres database on port 5432, and the frontend on http://localhost:3000/RhodyCarCounter. It also copies the cameras from the the camera table in the "production" database. 
+
+The last thing to do is to point the front end to the API running on your local machine at http://localhost:5001/api. It should be simple to set up, but I haven't set it up yet. So right now even if you run the frontend locally,, it will still pull data from the production API.
+
+If you only want to run the frontend:
+
+- clone repo
+- navigate to the frontend/traffic_count directory
+- run npm install - to install the dependencies
+- run npm start - the start the dev server on localhost
+
+Running the backend will require a little more work, I'll post here when I've documented it properly in more detail. I would like to set up docker / docker-compose to spin up everything needed to run locally and pull in some example data, but I haven't got to it yet 😃
+
+In general the idea is:
+- set the environment variables that are in this template: https://github.com/heathhenley/RhodyCarCounter/blob/main/backend/env-template.bat (you don't actually need the AWS ones unless you want to stick the images in an AWS bucket) --> the backend needs a database, I'm running postgres on railway.app, you could install locally or even use sqlite. The DB_CONNECT_STR for sqlite should be something like "file:./db.sqlite" which is simpler than postgres.
+- clone the repo and navigate to backend/api
+to run the api: (you need python 3.10 or higher)
+- create a venv to install the api dependencies python -m venv api_env and activate it (run Scripts/activate)
+- install the api dependencies with python -m pip install -r requirements-api.txt
+- run the api with uvicorn api:app --reload
+it uses FastAPI, and their docs are awesome (https://fastapi.tiangolo.com/)
+
+If you want to run the worker, I would create a separate virtual environment:
+- create a venv to install the api dependencies python -m venv worker_env and activate it (run Scripts/activate)
+- install the worker dependencies with python -m pip install -r requirements-worker.txt
+- run the worker with python worker/traffic.py
