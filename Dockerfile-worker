@@ -1,0 +1,7 @@
+FROM python:3.10.10
+WORKDIR /worker
+ENV PYTHONPATH=./:./worker
+RUN apt-get update -y && apt-get install -y libgl1
+COPY /backend/requirements-worker.txt requirements-worker.txt
+RUN pip install -r requirements-worker.txt
+COPY ./backend ./

@@ -1,0 +1,8 @@
+FROM python:3.10.10
+WORKDIR /api
+ENV PYTHONPATH=./:./api
+RUN apt-get update -y
+COPY /backend/requirements-api.txt requirements-api.txt
+RUN pip install -r requirements-api.txt
+EXPOSE 5001
+COPY ./backend ./

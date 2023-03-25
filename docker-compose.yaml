@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  db:
+    image: postgres:15.2
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: test_db
+    ports:
+      - "5432:5432"
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile-api
+    environment:
+      DB_CONNECT_STR: postgresql://postgres:postgres@db:5432/test_db
+    command: uvicorn api:app --host 0.0.0.0 --port 5001
+    depends_on:
+      - db
+    ports:
+      - "5001:5001"
+    volumes:
+      - ./backend:/api
+  frontend:
+    build: ./frontend
+    command: npm start --host 0.0.0.0 --port 3000
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/frontend
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile-worker
+    environment:
+      DB_CONNECT_STR: postgresql://postgres:postgres@db:5432/test_db
+    command: python worker/copy_data_dev_db.py && python worker/traffic.py
+    depends_on:
+      - db
+    volumes:
+      - ./backend:/worker
