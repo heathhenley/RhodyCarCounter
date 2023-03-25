@@ -93,6 +93,7 @@ def detect_vehicles(data_callback=None):
     time.sleep(60 * 5) # running every 5 minutes
 
 def main():
+  print("Starting traffic worker")
   detect_vehicles(data_callback=db_utils.insert_data)
 
 if __name__ == "__main__":

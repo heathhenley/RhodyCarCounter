@@ -8,6 +8,7 @@ API = "https://rhodycarcounter-production.up.railway.app/api/cameras/"
 def main():
   camera_list = requests.get(API).json()
   engine = database.db_utils.get_engine()
+  model.Base.metadata.create_all(bind=engine)
   with sqlalchemy.orm.Session(engine) as session:
     for camera in camera_list:
       stm = (sqlalchemy.select(model.Camera)
@@ -24,8 +25,6 @@ def main():
       )
       session.add(db_camera)
     session.commit()
-
-  pass
 
 if __name__ == "__main__":
   main()

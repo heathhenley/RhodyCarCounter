@@ -28,13 +28,22 @@ services:
       - "3000:3000"
     volumes:
       - ./frontend:/frontend
+  db_setup:
+    build:
+      context: .
+      dockerfile: Dockerfile-worker
+    environment:
+      DB_CONNECT_STR: postgresql://postgres:postgres@db:5432/test_db
+    command: python worker/copy_data_dev_db.py
+    depends_on:
+      - db
   worker:
     build:
       context: .
       dockerfile: Dockerfile-worker
     environment:
       DB_CONNECT_STR: postgresql://postgres:postgres@db:5432/test_db
-    command: python worker/copy_data_dev_db.py && python worker/traffic.py
+    command: python worker/traffic.py
     depends_on:
       - db
     volumes:
