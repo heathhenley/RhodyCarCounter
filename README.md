@@ -46,12 +46,13 @@ and the counts and show a table of all the available cameras. Uses recharts to
 plot the latests data.
 
 ## How to run locally
-
+### The whole system
 I just added a docker-compose file to run the backend and the frontend locally. You can run it with: `docker compose up` and it will spin up the API server on 
 http://localhost:5001, a postgres database on port 5432, and the frontend on http://localhost:3000/RhodyCarCounter. It also copies the cameras from the the camera table in the "production" database. 
 
 The last thing to do is to point the front end to the API running on your local machine at http://localhost:5001/api. It should be simple to set up, but I haven't set it up yet. So right now even if you run the frontend locally,, it will still pull data from the production API.
 
+### Individual parts
 If you only want to run the frontend:
 
 - clone repo
