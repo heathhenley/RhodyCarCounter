@@ -60,7 +60,7 @@ If you only want to run the frontend:
 - run npm install - to install the dependencies
 - run npm start - the start the dev server on localhost
 
-Running the backend will require a little more work, I'll post here when I've documented it properly in more detail. I would like to set up docker / docker-compose to spin up everything needed to run locally and pull in some example data, but I haven't got to it yet 😃
+Running the backend will require a little more work. 
 
 In general the idea is:
 - set the environment variables that are in this template: https://github.com/heathhenley/RhodyCarCounter/blob/main/backend/env-template.bat (you don't actually need the AWS ones unless you want to stick the images in an AWS bucket) --> the backend needs a database, I'm running postgres on railway.app, you could install locally or even use sqlite. The DB_CONNECT_STR for sqlite should be something like "file:./db.sqlite" which is simpler than postgres.
