@@ -23,6 +23,8 @@ services:
       - ./backend:/api
   frontend:
     build: ./frontend
+    environment:
+      REACT_APP_API_URL_DEVELOPMENT: http://localhost:5001/
     command: npm start --host 0.0.0.0 --port 3000
     ports:
       - "3000:3000"

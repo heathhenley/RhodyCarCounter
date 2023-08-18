@@ -8,7 +8,6 @@ import Loading from './components/Loading';
 function TablePage() {
 
   let data = useLoaderData();
-
   return (
     <div className="TablePage">
       <Container className="mb-3">
