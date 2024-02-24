@@ -98,7 +98,16 @@ def read_root():
 def read_cameras(
     skip: int = 0, limit: int = 100, status: bool = False,
     db: Session = Depends(get_db)):
-  cameras = crud.get_cameras(db, skip=skip, limit=limit)
+  # After railway postgres plugin upgrade, I noticed that the first request
+  # after a period of inactivity has been timing out - going to let this one
+  # retry once for now until looking into it more.
+  try:
+    cameras = crud.get_cameras(db, skip=skip, limit=limit)
+  except:
+    try:
+      cameras = crud.get_cameras(db, skip=skip, limit=limit)
+    except:
+      raise HTTPException(status_code=500, detail="Database error")
   if status:
     for camera in cameras:
       camera.status = get_status(camera.id, factor=1.0, db=db)
