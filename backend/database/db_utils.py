@@ -5,7 +5,7 @@ import database.model as model
 
 
 def get_engine(db_connect_str=os.environ.get("DB_CONNECT_STR")):
-  return sqlalchemy.create_engine(db_connect_str, echo=False)
+  return sqlalchemy.create_engine(db_connect_str, echo=False, pool_recycle=3600)
 
 # get list of all cameras in database
 def get_camera_list(engine):
