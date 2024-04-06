@@ -61,12 +61,16 @@ def detect_vehicles(data_callback=None):
         print(f"Fail to get image: {image_name} ")
         continue
 
-      # Run prediction
-      tic = time.perf_counter()
-      results = yolo_model.predict(
-        f"images/{image_name}", save=True, exist_ok=True)
-      vehicles = results[0].boxes.cls.shape[0]
-      print(f"  Prediction Time: {time.perf_counter() - tic} secs")
+      try:
+        # Run prediction
+        tic = time.perf_counter()
+        results = yolo_model.predict(
+          f"images/{image_name}", save=True, exist_ok=True)
+        vehicles = results[0].boxes.cls.shape[0]
+        print(f"  Prediction Time: {time.perf_counter() - tic} secs")
+      except Exception as e:
+        print(f"Error in prediction step: {e}")
+        continue
 
       if data_callback:
         data_callback(
