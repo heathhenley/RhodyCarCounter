@@ -94,7 +94,12 @@ def detect_vehicles(data_callback=None):
     # process, that's still only 25 seconds, so we can take a little break to
     # avoid too many duplicate runs. It will also reduce cost if the db or
     # or worker is too expensive
-    time.sleep(60 * 5) # running every 5 minutes
+    #time.sleep(60 * 5) # running every 5 minutes
+    # NOTE: this used to spin, and might one day spin again, but railway cost
+    # went up for that recently so now it will be triggered to run on a cron
+    # schedule, so I can play with the frequency and it will suspend between
+    # runs
+    break
 
 def main():
   print("Starting traffic worker")
