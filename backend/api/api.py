@@ -1,3 +1,4 @@
+import datetime
 import sys
 from fastapi import Depends, FastAPI, HTTPException
 from fastapi.responses import RedirectResponse
@@ -80,7 +81,12 @@ def get_status(
   # is not good enough that this extra work is worth it. I'm going to remove it
   # for now, but I'd like to add it back in the future. To put it back, just
   # compute the average and std dev and pass to compute_camera_status.
-  latest = crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)
+  if not (latest := crud.get_datapoints(db, camera_id=camera_id, skip=0, limit=1)):
+    return {
+      "status": "n/a",
+      "timestamp": datetime.datetime.now(),
+      "current": 0
+    }
   status = compute_camera_status(float(latest[0].vehicles), factor=factor)
   return {
     "status": status,
